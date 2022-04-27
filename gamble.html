@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Casino</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hidden {
+            display:none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <h1>Casino</h1>
+        <div class="row">
+            <h3>Your Number:</h3>
+            <h3 id="yourNum"></h3>
+        </div>
+        <div class="row">
+            <label for="num1">Choose Your Number (1-10):</label>
+            <input type="text" id="num1" name="num1" style="width: 100px;">
+        </div>
+        <button id="die1">Roll the die</button>
+        <p class="hidden"></p>
+    </div>
+</div>
+<script>
+    const num1 = document.getElementById('num1');
+    const yourNum = document.getElementById('yourNum');
+    //const error = document.querySelector('p');
+    const firstGame = document.getElementById('die1');
+    const ans = document.querySelector('p');
+
+    let randomNum = Math.floor(Math.random() * 11);
+
+    /*if(num1 > 10){
+        error.textContent = "Your number is too high!";
+        error.classList.remove('hidden');
+    }*/
+
+    firstGame.addEventListener('click', function(e) {
+        let userNum = +num1.value;
+        yourNum.innerHTML = `${userNum}`;
+        if (userNum === randomNum) {
+            ans.classList.remove("hidden");
+            const end = document.createElement('p');
+            end.innerHTML = `Your number was ${userNum} and the winning number was ${randomNum}. You won!`
+        } else {
+            ans.classList.remove("hidden");
+            const end = document.createElement('p');
+            end.innerHTML = `Your number was ${userNum} and the winning number was ${randomNum}. You suck!`
+        }
+    })
+</script>
+</body>
+</html>
