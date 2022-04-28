@@ -76,6 +76,10 @@ section header{
     align-items: center;
 }
 .picture {
+    width:70px;
+    height:60px;
+}
+button {
     width:100px;
     height:100px;
 }

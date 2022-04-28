@@ -13,44 +13,111 @@
 <body>
 <div class="container">
     <div class="content">
+        <h1>Earn money</h1>
+        <div class="row">
+            <h3>Your Money:</h3>
+            <h3 id="cash">$0</h3>
+        </div>
+        <button id="earn">Earn Money</button>
         <h1>Casino</h1>
         <div class="row">
             <h3>Your Number:</h3>
             <h3 id="yourNum"></h3>
         </div>
         <div class="row">
-            <label for="num1">Choose Your Number (1-10):</label>
+            <label for="bet">Place your bet here:</label>
+            <input type="text" id="bet" name="bet" style="width: 100px;">
+        </div>
+        <div class="row">
+            <label for="num1"><i>2x Betting Amount</i> Choose Your Number (1-10):</label>
             <input type="text" id="num1" name="num1" style="width: 100px;">
         </div>
-        <button id="die1">Roll the die</button>
+        <button id="die1"><img class="picture" src="https://www.online-stopwatch.com/images/dice.png">Roll the die</button>
+        <button class="hidden" id="again">Play Again</button>
+        <div class="row"></div>
         <p class="hidden"></p>
+        <div class="row"></div>
+        <p></p>
+        <button id="reset">Reset</button>
     </div>
 </div>
 <script>
-    const num1 = document.getElementById('num1');
+    let randomNum = Math.floor(Math.random() * 11);
+    let cashAmount = 0;
+    let increment = 1;
+
+    const cash = document.getElementById('cash');
+    const earnButton = document.getElementById('earn');
+
     const yourNum = document.getElementById('yourNum');
-    //const error = document.querySelector('p');
     const firstGame = document.getElementById('die1');
     const ans = document.querySelector('p');
+    const textBox = document.getElementById('num1');
+    const reset = document.getElementById('reset');
+    const playAgain = document.getElementById('again');
+    const betPlaced = document.getElementById('bet');
 
-    let randomNum = Math.floor(Math.random() * 11);
 
-    /*if(num1 > 10){
-        error.textContent = "Your number is too high!";
-        error.classList.remove('hidden');
-    }*/
+    earnButton.addEventListener('click', function(e) {
+        cashAmount += increment;
+        cash.innerHTML = `$${cashAmount}`;
+    })
+
+    reset.addEventListener('click', function(e) {
+        location.reload();
+    })
+
+    //todo create a way to reset random number on click
+    playAgain.addEventListener('click', function(e) {
+        firstGame.classList.remove("hidden");
+        playAgain.classList.add("hidden");
+        textBox.classList.remove("hidden");
+        betPlaced.classList.remove("hidden");
+        return playAgainRandom();
+    })
+
+    function playAgainRandom() {
+        Math.floor(Math.random() * 11);
+    }
 
     firstGame.addEventListener('click', function(e) {
-        let userNum = +num1.value;
+        let userNum = +textBox.value;
+        let userBet = +betPlaced.value;
         yourNum.innerHTML = `${userNum}`;
-        if (userNum === randomNum) {
-            ans.classList.remove("hidden");
-            const end = document.createElement('p');
-            end.innerHTML = `Your number was ${userNum} and the winning number was ${randomNum}. You won!`
+        textBox.value ="";
+        betPlaced.value="";
+        if (userNum > 10 || userNum < 1) {
+            ans.classList.remove('hidden');
+            ans.textContent = "Your number is invalid!";
         } else {
-            ans.classList.remove("hidden");
-            const end = document.createElement('p');
-            end.innerHTML = `Your number was ${userNum} and the winning number was ${randomNum}. You suck!`
+            if (userBet <= cashAmount) {
+                cashAmount -= userBet;
+                cash.innerHTML = `$${cashAmount}`;
+                if (userNum === randomNum) {
+                    let winning = userBet *2;
+                    cashAmount += winning;
+                    cash.innerHTML = `$${cashAmount}`;
+                    ans.classList.remove("hidden");
+                    ans.innerHTML = `Your number was ${userNum} and the winning number was ${randomNum}. You won!`
+                    playAgain.classList.remove('hidden');
+                    firstGame.classList.add('hidden');
+                    textBox.classList.add('hidden');
+                    betPlaced.classList.add('hidden');
+                } else {
+                    ans.classList.remove("hidden");
+                    const end = document.createElement('p');
+                    ans.innerHTML = `Your number was ${userNum} and the winning number was ${randomNum}. You suck!`
+                    playAgain.classList.remove('hidden');
+                    firstGame.classList.add('hidden');
+                    textBox.classList.add('hidden');
+                    betPlaced.classList.add('hidden');
+                }
+            } else {
+                if (userBet > cashAmount) {
+                    ans.classList.remove('hidden');
+                    ans.textContent = "You dont have enough money!";
+                }
+            }
         }
     })
 </script>
