@@ -20,6 +20,7 @@
         </div>
         <button id="earn">Earn Money</button>
         <h1>Casino</h1>
+        <h2>Pick The Number</h2>
         <div class="row">
             <h3>Your Number:</h3>
             <h3 id="yourNum"></h3>
@@ -29,7 +30,7 @@
             <input type="text" id="bet" name="bet" style="width: 100px;">
         </div>
         <div class="row">
-            <label for="num1"><i>2x Betting Amount</i> Choose Your Number (1-10):</label>
+            <label for="num1"><i>2x Betting Amount</i> Choose Your Number (0-10):</label>
             <input type="text" id="num1" name="num1" style="width: 100px;">
         </div>
         <button id="die1"><img class="picture" src="https://www.online-stopwatch.com/images/dice.png">Roll the die</button>
@@ -38,11 +39,19 @@
         <p class="hidden"></p>
         <div class="row"></div>
         <p></p>
+        <h2>Blackjack</h2>
+        <div class="row">
+            <label for="bet2">Place your bet here:</label>
+            <input type="text" id="bet2" name="bet2" style="width: 100px;">
+        </div>
+        <button id="die2">Get Your Cards</button>
+        <div class="row"></div>
         <button id="reset">Reset</button>
     </div>
 </div>
 <script>
     let randomNum = Math.floor(Math.random() * 11);
+    let blackJackNum = Math.floor(Math.random() * 11) +1;
     let cashAmount = 0;
     let increment = 1;
 
@@ -56,6 +65,60 @@
     const reset = document.getElementById('reset');
     const playAgain = document.getElementById('again');
     const betPlaced = document.getElementById('bet');
+    const secondBet = document.getElementById('bet2');
+    const secondGame = document.getElementById('die2');
+    const cards = ["one", "two", "three", "four", "five", "six", "seven"]; //todo images for every card
+
+    secondGame.addEventListener('click', function(e) {
+        let userBet = +secondBet.value;
+        if (userBet <= cashAmount) {
+            cashAmount -= userBet;
+            cash.innerHTML = `$${cashAmount}`;
+            if (blackJackNum === 1) {
+                ans.innerHTML = `Your card is Ace.`;
+            } else {
+                if (blackJackNum === 2) {
+                    ans.innerHTML = `Your card is Two.`;
+                } else {
+                    if (blackJackNum === 3) {
+                        ans.innerHTML = `Your card is Three`;
+                    } else {
+                        if (blackJackNum === 4) {
+                            ans.innerHTML = `Your card is Four`;
+                        } else {
+                            if (blackJackNum === 5) {
+                                ans.innerHTML = `Your card is Five`;
+                            } else {
+                                if (blackJackNum === 6) {
+                                    ans.innerHTML = `Your card is Six`;
+                                } else {
+                                    if (blackJackNum === 7) {
+                                        ans.innerHTML = `Your card is Seven`;
+                                    } else {
+                                        if (blackJackNum === 8) {
+                                            ans.innerHTML = `Your card is Eight`;
+                                        } else {
+                                            if (blackJackNum === 9) {
+                                                ans.innerHTML = `Your card is Nine`;
+                                            } else {
+                                                if (blackJackNum === 10) {
+                                                    ans.innerHTML = `Your card is Ten`; //todo make it so it gives you jack, queen, king or 10 randomly
+                                                } else {
+                                                    if (blackJackNum === 11) {
+                                                        ans.innerHTML = `Your card is Ace`;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
 
 
     earnButton.addEventListener('click', function(e) {
@@ -67,17 +130,48 @@
         location.reload();
     })
 
-    //todo create a way to reset random number on click
     playAgain.addEventListener('click', function(e) {
-        firstGame.classList.remove("hidden");
-        playAgain.classList.add("hidden");
-        textBox.classList.remove("hidden");
-        betPlaced.classList.remove("hidden");
-        return playAgainRandom();
+        let userNum = +textBox.value;
+        let newNum = playAgainRandom();
+        let userBet = +betPlaced.value;
+        if (userNum > 10 || userNum < 0) {
+            ans.classList.remove('hidden');
+            ans.textContent = "Your number is invalid!";
+        } else {
+            if (userBet <= cashAmount) {
+                cashAmount -= userBet;
+                cash.innerHTML = `$${cashAmount}`;
+                if (userNum === newNum) {
+                    let winning = userBet *2;
+                    cashAmount += winning;
+                    cash.innerHTML = `$${cashAmount}`;
+                    ans.classList.remove("hidden");
+                    ans.innerHTML = `Your number was ${userNum} and the winning number was ${newNum}. You won!`
+                    playAgain.classList.remove('hidden');
+                    firstGame.classList.add('hidden');
+                    textBox.value ="";
+                    betPlaced.value="";
+                } else {
+                    ans.classList.remove("hidden");
+                    const end = document.createElement('p');
+                    ans.innerHTML = `Your number was ${userNum} and the winning number was ${newNum}. You suck!`
+                    playAgain.classList.remove('hidden');
+                    firstGame.classList.add('hidden');
+                    textBox.value="";
+                    betPlaced.value="";
+                }
+            } else {
+                if (userBet > cashAmount) {
+                    ans.classList.remove('hidden');
+                    ans.textContent = "You dont have enough money!";
+                }
+            }
+        }
     })
 
     function playAgainRandom() {
-        Math.floor(Math.random() * 11);
+        let newRandom = Math.floor(Math.random() * 11);
+        return newRandom;
     }
 
     firstGame.addEventListener('click', function(e) {
@@ -86,7 +180,7 @@
         yourNum.innerHTML = `${userNum}`;
         textBox.value ="";
         betPlaced.value="";
-        if (userNum > 10 || userNum < 1) {
+        if (userNum > 10 || userNum < 0) {
             ans.classList.remove('hidden');
             ans.textContent = "Your number is invalid!";
         } else {
@@ -101,16 +195,12 @@
                     ans.innerHTML = `Your number was ${userNum} and the winning number was ${randomNum}. You won!`
                     playAgain.classList.remove('hidden');
                     firstGame.classList.add('hidden');
-                    textBox.classList.add('hidden');
-                    betPlaced.classList.add('hidden');
                 } else {
                     ans.classList.remove("hidden");
                     const end = document.createElement('p');
                     ans.innerHTML = `Your number was ${userNum} and the winning number was ${randomNum}. You suck!`
                     playAgain.classList.remove('hidden');
                     firstGame.classList.add('hidden');
-                    textBox.classList.add('hidden');
-                    betPlaced.classList.add('hidden');
                 }
             } else {
                 if (userBet > cashAmount) {
