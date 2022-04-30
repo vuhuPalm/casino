@@ -44,7 +44,17 @@
             <label for="bet2">Place your bet here:</label>
             <input type="text" id="bet2" name="bet2" style="width: 100px;">
         </div>
-        <button id="die2">Get Your Cards</button>
+        <button id="die2">Get The Cards</button>
+        <p id="firstCard" class="hidden"></p>
+        <p id="dealerFirst" class="hidden"></p>
+        <p id="secondCard" class="hidden"></p>
+        <p id="dealerSecond" class="hidden"></p>
+        <div class="row">
+            <p id="yourValue" class="hidden"></p>
+        </div>
+        <div class="row">
+            <p id="dealerValue" class="hidden"></p>
+        </div>
         <div class="row"></div>
         <button id="reset">Reset</button>
     </div>
@@ -52,6 +62,9 @@
 <script>
     let randomNum = Math.floor(Math.random() * 11);
     let blackJackNum = Math.floor(Math.random() * 11) +1;
+    let blackJackNum2 = Math.floor(Math.random() * 11) +1;
+    let blackJackNum3 = Math.floor(Math.random() * 11) +1;
+    let blackJackNum4 = Math.floor(Math.random() * 11) +1;
     let cashAmount = 0;
     let increment = 1;
 
@@ -68,44 +81,192 @@
     const secondBet = document.getElementById('bet2');
     const secondGame = document.getElementById('die2');
     const cards = ["one", "two", "three", "four", "five", "six", "seven"]; //todo images for every card
+    const secondCard = document.getElementById('secondCard');
+    const dealerFirst = document.getElementById('dealerFirst');
+    const dealerSecond = document.getElementById('dealerSecond');
+    const firstCard = document.getElementById('firstCard');
+    const yourValue = document.getElementById('yourValue');
+    const dealerValue = document.getElementById('dealerValue');
 
     secondGame.addEventListener('click', function(e) {
+        let onClick = firstSet();
+        let onCLick2 = secondSet();
+
+        let num1 = +blackJackNum.value;
+        let num2 = +blackJackNum2.value;
+
+        let value1 = (num1 + num2);
+        yourValue.classList.remove('hidden');
+        yourValue.innerHTML = `Your card value: ${value1}`;
+
+        let num3 = +blackJackNum3.value;
+        let num4 = +blackJackNum4.value;
+        let value2 = (num3 + num4);
+        dealerValue.classList.remove('hidden');
+        dealerValue.innerHTML = `Dealer card value: ${value2}`
+    })
+
+    function secondSet() {
         let userBet = +secondBet.value;
-        if (userBet <= cashAmount) {
-            cashAmount -= userBet;
-            cash.innerHTML = `$${cashAmount}`;
-            if (blackJackNum === 1) {
-                ans.innerHTML = `Your card is Ace.`;
+        if (userBet > cashAmount) {
+            secondCard.classList.remove('hidden');
+            secondCard.innerHTML = `You don't have enough money`
+        } else {
+            if (blackJackNum2 === 1 || blackJackNum2 === 11) {
+                secondCard.classList.remove('hidden');
+                secondCard.innerHTML = `Your second card is Ace`;
             } else {
-                if (blackJackNum === 2) {
-                    ans.innerHTML = `Your card is Two.`;
+                if (blackJackNum2 === 2) {
+                    secondCard.classList.remove('hidden');
+                    secondCard.innerHTML = `Your second card is Two.`;
                 } else {
-                    if (blackJackNum === 3) {
-                        ans.innerHTML = `Your card is Three`;
+                    if (blackJackNum2 === 3) {
+                        secondCard.classList.remove('hidden');
+                        secondCard.innerHTML = `Your second card is Three`;
                     } else {
-                        if (blackJackNum === 4) {
-                            ans.innerHTML = `Your card is Four`;
+                        if (blackJackNum2 === 4) {
+                            secondCard.classList.remove('hidden');
+                            secondCard.innerHTML = `Your second card is Four`;
                         } else {
-                            if (blackJackNum === 5) {
-                                ans.innerHTML = `Your card is Five`;
+                            if (blackJackNum2 === 5) {
+                                secondCard.classList.remove('hidden');
+                                secondCard.innerHTML = `Your second card is Five`;
                             } else {
-                                if (blackJackNum === 6) {
-                                    ans.innerHTML = `Your card is Six`;
+                                if (blackJackNum2 === 6) {
+                                    secondCard.classList.remove('hidden');
+                                    secondCard.innerHTML = `Your second card is Six`;
                                 } else {
-                                    if (blackJackNum === 7) {
-                                        ans.innerHTML = `Your card is Seven`;
+                                    if (blackJackNum2 === 7) {
+                                        secondCard.classList.remove('hidden');
+                                        secondCard.innerHTML = `Your second card is Seven`;
                                     } else {
-                                        if (blackJackNum === 8) {
-                                            ans.innerHTML = `Your card is Eight`;
+                                        if (blackJackNum2 === 8) {
+                                            secondCard.classList.remove('hidden');
+                                            secondCard.innerHTML = `Your second card is Eight`;
                                         } else {
-                                            if (blackJackNum === 9) {
-                                                ans.innerHTML = `Your card is Nine`;
+                                            if (blackJackNum2 === 9) {
+                                                secondCard.classList.remove('hidden');
+                                                secondCard.innerHTML = `Your second card is Nine`;
                                             } else {
-                                                if (blackJackNum === 10) {
-                                                    ans.innerHTML = `Your card is Ten`; //todo make it so it gives you jack, queen, king or 10 randomly
+                                                if (blackJackNum2 === 10) {
+                                                    secondCard.classList.remove('hidden');
+                                                    secondCard.innerHTML = `Your second card is Ten`; //todo make it so it gives you jack, queen, king or 10 randomly
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (userBet > cashAmount) {
+            secondCard.classList.remove('hidden');
+            secondCard.innerHTML = `You don't have enough money`
+        } else {
+            if (blackJackNum4 === 1 || blackJackNum4 === 11) {
+                dealerSecond.classList.remove('hidden');
+                dealerSecond.innerHTML = `Dealer's Second card was Ace`;
+            } else {
+                if (blackJackNum4 === 2) {
+                    dealerSecond.classList.remove('hidden');
+                    dealerSecond.innerHTML = `Dealer's Second card was Two`;
+                } else {
+                    if (blackJackNum4 === 3) {
+                        dealerSecond.classList.remove('hidden');
+                        dealerSecond.innerHTML = `Dealer's Second card was Three`;
+                    } else {
+                        if (blackJackNum4 === 4) {
+                            dealerSecond.classList.remove('hidden');
+                            dealerSecond.innerHTML = `Dealer's Second card was Four`;
+                        } else {
+                            if (blackJackNum4 === 5) {
+                                dealerSecond.classList.remove('hidden');
+                                dealerSecond.innerHTML = `Dealer's Second card was Five`;
+                            } else {
+                                if (blackJackNum4 === 6) {
+                                    dealerSecond.classList.remove('hidden');
+                                    dealerSecond.innerHTML = `Dealer's Second card was Six`;
+                                } else {
+                                    if (blackJackNum4 === 7) {
+                                        dealerSecond.classList.remove('hidden');
+                                        dealerSecond.innerHTML = `Dealer's Second card was Seven`;
+                                    } else {
+                                        if (blackJackNum4 === 8) {
+                                            dealerSecond.classList.remove('hidden');
+                                            dealerSecond.innerHTML = `Dealer's Second card was Eight`;
+                                        } else {
+                                            if (blackJackNum4 === 9) {
+                                                dealerSecond.classList.remove('hidden');
+                                                dealerSecond.innerHTML = `Dealer's Second card was Nine`;
+                                            } else {
+                                                if (blackJackNum4 === 10) {
+                                                    dealerSecond.classList.remove('hidden');
+                                                    dealerSecond.innerHTML = `Dealer's Second card was Ten`;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function firstSet() {
+        let userBet = +secondBet.value;
+        if (userBet > cashAmount) {
+            firstCard.classList.remove('hidden');
+            firstCard.innerHTML = `You don't have enough money`;
+        } else {
+            if (userBet <= cashAmount) {
+                cashAmount -= userBet;
+                secondBet.value = "";
+                cash.innerHTML = `$${cashAmount}`;
+                if (blackJackNum === 1 || blackJackNum === 11) {
+                    firstCard.classList.remove('hidden');
+                    firstCard.innerHTML = `Your card is Ace.`;
+                } else {
+                    if (blackJackNum === 2) {
+                        firstCard.classList.remove('hidden');
+                        firstCard.innerHTML = `Your card is Two.`;
+                    } else {
+                        if (blackJackNum === 3) {
+                            firstCard.classList.remove('hidden');
+                            firstCard.innerHTML = `Your card is Three`;
+                        } else {
+                            if (blackJackNum === 4) {
+                                firstCard.classList.remove('hidden');
+                                firstCard.innerHTML = `Your card is Four`;
+                            } else {
+                                if (blackJackNum === 5) {
+                                    firstCard.classList.remove('hidden');
+                                    firstCard.innerHTML = `Your card is Five`;
+                                } else {
+                                    if (blackJackNum === 6) {
+                                        firstCard.classList.remove('hidden');
+                                        firstCard.innerHTML = `Your card is Six`;
+                                    } else {
+                                        if (blackJackNum === 7) {
+                                            firstCard.classList.remove('hidden');
+                                            firstCard.innerHTML = `Your card is Seven`;
+                                        } else {
+                                            if (blackJackNum === 8) {
+                                                firstCard.classList.remove('hidden');
+                                                firstCard.innerHTML = `Your card is Eight`;
+                                            } else {
+                                                if (blackJackNum === 9) {
+                                                    firstCard.classList.remove('hidden');
+                                                    firstCard.innerHTML = `Your card is Nine`;
                                                 } else {
-                                                    if (blackJackNum === 11) {
-                                                        ans.innerHTML = `Your card is Ace`;
+                                                    if (blackJackNum === 10) {
+                                                        firstCard.classList.remove('hidden');
+                                                        firstCard.innerHTML = `Your card is Ten`; //todo make it so it gives you jack, queen, king or 10 randomly
                                                     }
                                                 }
                                             }
@@ -118,7 +279,56 @@
                 }
             }
         }
-    })
+        if (blackJackNum3 === 1 || blackJackNum3 === 11) {
+            dealerFirst.classList.remove('hidden');
+            dealerFirst.innerHTML = `Dealer's card was Ace`;
+        } else {
+            if (blackJackNum3 === 2) {
+                dealerFirst.classList.remove('hidden');
+                dealerFirst.innerHTML = `Dealer's card was Two`;
+            } else {
+                if (blackJackNum3 === 3) {
+                    dealerFirst.classList.remove('hidden');
+                    dealerFirst.innerHTML = `Dealer's card was Three`;
+                } else {
+                    if (blackJackNum3 === 4) {
+                        dealerFirst.classList.remove('hidden');
+                        dealerFirst.innerHTML = `Dealer's card was Four`;
+                    } else {
+                        if (blackJackNum3 === 5) {
+                            dealerFirst.classList.remove('hidden');
+                            dealerFirst.innerHTML = `Dealer's card was Five`;
+                        } else {
+                            if (blackJackNum3 === 6) {
+                                dealerFirst.classList.remove('hidden');
+                                dealerFirst.innerHTML = `Dealer's card was Six`;
+                            } else {
+                                if (blackJackNum3 === 7) {
+                                    dealerFirst.classList.remove('hidden');
+                                    dealerFirst.innerHTML = `Dealer's card was Seven`;
+                                } else {
+                                    if (blackJackNum3 === 8) {
+                                        dealerFirst.classList.remove('hidden');
+                                        dealerFirst.innerHTML = `Dealer's card was Eight`;
+                                    } else {
+                                        if (blackJackNum3 === 9) {
+                                            dealerFirst.classList.remove('hidden');
+                                            dealerFirst.innerHTML = `Dealer's card was Nine`;
+                                        } else {
+                                            if (blackJackNum3 === 10) {
+                                                dealerFirst.classList.remove('hidden');
+                                                dealerFirst.innerHTML = `Dealer's card was Ten`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
     earnButton.addEventListener('click', function(e) {
